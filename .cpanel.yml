@@ -1,0 +1,4 @@
+---
+deployment:
+ tasks:
+  - git --work-tree=/home/maldazil/public_html/~/apps/ checkout -f cPanel-deploy
