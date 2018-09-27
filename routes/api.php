@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/sms', 'Api\PullSmsController@index')->name('pullsmsapi');
+Route::post('/sms/pull', 'Api\PullSmsController@store')->name('savepullsmsapi');
