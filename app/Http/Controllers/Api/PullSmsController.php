@@ -32,7 +32,7 @@ class PullSmsController extends Controller
         $pullSms->message=$request->input('message');
         $pullSms->payload=json_encode($request->all());
         $pullSms->save();
-        dump($pullSms);
+        //dump($pullSms);
     }
 
     /**

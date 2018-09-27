@@ -41,14 +41,13 @@ class SmsCollector extends Command
      */
     public function handle()
     {
-        $lastSmsMessage = SmsMessage::latest();
+        $lastSmsMessage = SmsMessage::withTrashed()->latest();
         $lastSmsTime = time();
-        if (is_null($lastSmsMessage)) {
+        if (! is_null($lastSmsMessage)) {
             $lastSmsTime = $lastSmsMessage->first()->created_at;
         }
-
         $smsMessages = collect(DB::table('mame_sms')->select('mobile_no', 'message', 'ason_date')->where('ason_date', '>', $lastSmsTime)->get());
-        dump($smsMessages);
+        //dump($smsMessages);
         if ($smsMessages->count()) {
             $this->info('Collecting ...');
             $smsMessages->each(function ($smsMessage) {
