@@ -41,7 +41,7 @@ class SendSmsMessages extends Command
     {
         SmsMessage::all()->each(function ($smsMessage) {
             $smsGateway = new SmsGateway;
-            $smsMessage->response = $smsGateway->fromGateway('local')
+            $smsMessage->response = $smsGateway
                 ->toRecipient($smsMessage->mobile_no)
                 ->withSms($smsMessage->message)
                 ->asUnicodeSms()

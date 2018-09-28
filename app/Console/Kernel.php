@@ -31,9 +31,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('sms:collect')
             ->withoutOverlapping()
             ->sendOutputTo(storage_path('logs/sms-collect.log'));
-        $schedule->command('sms:send')
-            ->withoutOverlapping()
-            ->sendOutputTo(storage_path('logs/sms-send.log'));
     }
 
     /**
