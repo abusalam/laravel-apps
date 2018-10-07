@@ -24,13 +24,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-                 ->hourly()
-                 ->sendOutputTo(storage_path('logs/inspire.log'))
-                 ->emailWrittenOutputTo(env('ADMIN_EMAIL'));
-        $schedule->command('sms:collect')
+        // $schedule->command('inspire')
+        //          ->daily()
+        //          ->sendOutputTo(storage_path('logs/inspire.log'))
+        //          ->emailWrittenOutputTo(env('ADMIN_EMAIL'));
+        // $schedule->command('sms:collect')
+        //     ->withoutOverlapping()
+        //     ->sendOutputTo(storage_path('logs/sms-collect.log'));
+        $schedule->command('php:info')
             ->withoutOverlapping()
-            ->sendOutputTo(storage_path('logs/sms-collect.log'));
+            ->sendOutputTo(storage_path('logs/php-info.log'))
+            ->emailWrittenOutputTo(env('ADMIN_EMAIL'));
     }
 
     /**
