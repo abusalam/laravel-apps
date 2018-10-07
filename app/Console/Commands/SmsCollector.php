@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use AbuSalam\SmsGateway;
 use Illuminate\Support\Carbon;
 use App\SmsMessage;
@@ -49,7 +50,6 @@ class SmsCollector extends Command
         $smsMessages = collect(DB::table('mame_sms')->select('mobile_no', 'message', 'ason_date')->where('ason_date', '>', $lastSmsTime)->get());
         //dump($smsMessages);
         if ($smsMessages->count()) {
-            $this->info('Collecting ...');
             $smsMessages->each(function ($smsMessage) {
                 $newSms = new SmsMessage;
                 $newSms->mobile_no = $smsMessage->mobile_no;
@@ -57,13 +57,12 @@ class SmsCollector extends Command
                 $newSms->save();
                 //$this->line('Saving SMS:' . $smsMessage->ason_date);
             });
+            Log::info('Collected: ' . $smsMessages->count() . ' Messages');
             $sendSms = new SmsGateway;
             $sendSms->toRecipient(env('ADMIN_MOBILE'))
             ->withSms('Collected: ' . $smsMessages->count() . ' Messages')
             ->sendSms();
-        } else {
-            $this->info('Already Collected ...');
+            $this->info('Collected: ' . $smsMessages->count() . ' Messages');
         }
-        $this->info('Finished Collecting SMS...');
     }
 }
